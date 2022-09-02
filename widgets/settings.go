@@ -1,4 +1,4 @@
-package components
+package widgets
 
 import (
 	"fyne.io/fyne/v2"
@@ -9,7 +9,7 @@ import (
 	"gui/types"
 )
 
-func settingsMenu(g *types.GUI) *widget.Card {
+func settingsMenu(g *types.GUI) *fyne.Container {
 	t := setTheme(g)
 	s := widget.NewSeparator()
 	e := widget.NewButtonWithIcon("Exit", theme.LogoutIcon(), func() {
@@ -17,7 +17,7 @@ func settingsMenu(g *types.GUI) *widget.Card {
 	})
 
 	l := layout.NewVBoxLayout()
-	return widget.NewCard("", "", container.New(l, t, s, e))
+	return container.New(l, t, s, e)
 }
 
 func setTheme(g *types.GUI) (change fyne.CanvasObject) {

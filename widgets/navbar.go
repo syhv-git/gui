@@ -1,4 +1,4 @@
-package components
+package widgets
 
 import (
 	"fyne.io/fyne/v2"
@@ -19,9 +19,9 @@ func BuildNavBar(g *types.GUI) fyne.CanvasObject {
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.SettingsIcon(), func() {
+			sm.Show()
 			sm.Move(fyne.Position{X: 600, Y: 40})
 			sm.Resize(fyne.Size{Width: 140})
-			sm.Show()
 		}),
 	)
 	c := color.RGBA{A: 42}

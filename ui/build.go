@@ -2,11 +2,11 @@ package ui
 
 import (
 	"gui/types"
-	"gui/ui/components"
+	"gui/widgets"
 )
 
 func BuildUI(g *types.GUI) {
-	nav := components.BuildNavBar(g)
+	nav := widgets.BuildNavBar(g)
 
 	g.Main.SetContent(nav)
 }
