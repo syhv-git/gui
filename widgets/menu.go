@@ -7,11 +7,17 @@ import (
 	"gui/types"
 )
 
-func menu(g *types.GUI) (list fyne.CanvasObject) {
-	l1 := widget.NewLabel("Test")
+func BuildMenu(g *types.GUI) fyne.CanvasObject {
+	l1 := widget.NewLabel("Main Page")
 	l2 := widget.NewLabel("Apps")
-	l3 := widget.NewLabel("Goes")
+	l3 := widget.NewLabel("Go")
 	l4 := widget.NewLabel("Here")
-	list = container.NewVBox(l1, l2, l3, l4)
-	return
+	list := container.NewVBox(l1, l2, l3, l4)
+	m := widget.NewModalPopUp(list, g.Main.Canvas())
+	s := fyne.Size{Width: 200, Height: 400}
+	m.Resize(s)
+	p := fyne.Position{X: 10, Y: 100}
+	m.Move(p)
+	m.Hide()
+	return m
 }

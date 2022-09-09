@@ -9,34 +9,55 @@ import (
 	"gui/types"
 )
 
-func settingsMenu(g *types.GUI) *fyne.Container {
-	t := setTheme(g)
-	s := widget.NewSeparator()
+func BuildSettingsMenu(g *types.GUI) *fyne.Container {
+	t := themeButton(g)
+
 	e := widget.NewButtonWithIcon("Exit", theme.LogoutIcon(), func() {
 		g.App.Quit()
 	})
-
-	l := layout.NewVBoxLayout()
-	return container.New(l, t, s, e)
+	s := widget.NewSeparator()
+	v := layout.NewVBoxLayout()
+	c := container.New(v, t, s, e)
+	return c
 }
 
-func setTheme(g *types.GUI) (change fyne.CanvasObject) {
-	light, _ := fyne.LoadResourceFromPath("images/light_mode.svg")
-	dark, _ := fyne.LoadResourceFromPath("images/dark_mode.svg")
-	c := g.App.Settings().Theme()
-	v := g.App.Settings().ThemeVariant()
-
-	l := widget.NewButtonWithIcon("Dark Mode", dark, func() {
-		c.Color(theme.ColorGray, theme.VariantLight)
-		g.App.Settings().SetTheme(c)
-	})
-
-	d := widget.NewButtonWithIcon("Light Mode", light, func() {
-		c.Color(theme.ColorGray, theme.VariantDark)
-		g.App.Settings().SetTheme(c)
-	})
-	if v == theme.VariantDark {
-		return l
+func themeButton(g *types.GUI) fyne.CanvasObject {
+	var (
+		b  bool
+		lt func()
+	)
+	if g.App.Settings().ThemeVariant() == theme.VariantDark {
+		b = true
+	} else {
+		b = false
 	}
-	return d
+
+	tb := new(widget.Button)
+	l, _ := fyne.LoadResourceFromPath("images/light_mode.svg")
+	d, _ := fyne.LoadResourceFromPath("images/dark_mode.svg")
+	dt := func() {
+		tb.Icon = l
+		tb.Text = "Light Mode"
+		tb.Refresh()
+		tb.OnTapped = lt
+		b = false
+	}
+	lt = func() {
+		tb.Icon = d
+		tb.Text = "Dark Mode"
+		tb.Refresh()
+		tb.OnTapped = dt
+		b = true
+	}
+
+	if b {
+		tb.Icon = d
+		tb.Text = "Dark Mode"
+		tb.OnTapped = dt
+		return tb
+	}
+	tb.Icon = l
+	tb.Text = "Light Mode"
+	tb.OnTapped = lt
+	return tb
 }
